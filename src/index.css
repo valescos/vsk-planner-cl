@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gradient-to-r from-blue-200 to-blue-400 font-main;
+}
+
+.wrapper {
+  @apply w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%];
+}
