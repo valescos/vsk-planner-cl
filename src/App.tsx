@@ -67,7 +67,7 @@ function App() {
     return (
       <div className="flex flex-col items-center">
         <Modal />
-        <div className="wrapper mt-12 flex flex-col gap-6 rounded-lg border-2 border-gray-400 bg-white p-2 shadow-md">
+        <div className="wrapper mt-12 flex flex-col gap-6 rounded-lg border-2 border-gray-400 bg-white p-2 shadow-md sm:gap-2">
           <ListHeader />
           {todos &&
             todos

@@ -24,42 +24,26 @@ export default function SigninSignupForm({ authMode }: SigninSignupFormProps) {
   }
 
   return (
-    <form className="flex flex-col gap-4">
-      <div className="flex flex-col">
-        <label htmlFor="email" className="self-center">
-          Е-mail:
-        </label>
-        <input
-          required
-          autoComplete="email"
-          id="email"
-          className="boder-gray-500 rounded-md border-2 px-4 py-2"
-          type="email"
-          placeholder="введите email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-      <div className="flex flex-col">
-        <label htmlFor="password" className="self-center">
-          Пароль:
-        </label>
-        <input hidden type="text" autoComplete="username " />
-        <input
-          required
-          autoComplete="new-password"
-          className="boder-gray-500 rounded-md border-2 px-4 py-2"
-          type="password"
-          placeholder="введите пароль"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      {authMode === "signup" && (
+    <div className="flex flex-col gap-2">
+      <form className="flex flex-col gap-2">
         <div className="flex flex-col">
-          <label htmlFor="confirm_password" className="self-center">
-            Повторите пароль:
+          <label htmlFor="email" className="self-center">
+            Е-mail:
+          </label>
+          <input
+            required
+            autoComplete="email"
+            id="email"
+            className="boder-gray-500 rounded-md border-2 px-4 py-2"
+            type="email"
+            placeholder="введите email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="password" className="self-center">
+            Пароль:
           </label>
           <input hidden type="text" autoComplete="username " />
           <input
@@ -67,12 +51,32 @@ export default function SigninSignupForm({ authMode }: SigninSignupFormProps) {
             autoComplete="new-password"
             className="boder-gray-500 rounded-md border-2 px-4 py-2"
             type="password"
-            placeholder="подтвердите пароль"
-            id="confirm_password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="введите пароль"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+      </form>
+      {authMode === "signup" && (
+        <form>
+          <div className="flex flex-col">
+            <label htmlFor="confirm_password" className="self-center">
+              Повторите пароль:
+            </label>
+            <input hidden type="text" autoComplete="username " />
+            <input
+              required
+              autoComplete="new-password"
+              className="boder-gray-500 rounded-md border-2 px-4 py-2"
+              type="password"
+              placeholder="подтвердите пароль"
+              id="confirm_password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+        </form>
       )}
       <button
         onClick={(e) => handleInput(e)}
@@ -81,6 +85,6 @@ export default function SigninSignupForm({ authMode }: SigninSignupFormProps) {
         {authMode === "signin" ? "Войти" : "Зарегистрироваться"}
       </button>
       {error && <p className="text-center font-bold text-rose-500">{error}</p>}
-    </form>
+    </div>
   );
 }
