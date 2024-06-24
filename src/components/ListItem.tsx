@@ -45,32 +45,55 @@ export default function ListItem({
   return (
     <div
       className={cn(
-        "flex items-center justify-between p-4 py-2 transition-all",
+        "relative flex items-center justify-center rounded-md border-[1px] border-gray-400 p-2 transition-all sm:justify-between",
         isComplited && "bg-blue-200 opacity-50",
       )}
     >
-      <div className="flex items-center gap-4 text-lg">
-        {isComplited ? (
-          <StyledButton
-            title="Разблокировать"
-            type="button"
-            onClick={() => handleCompliteUnlockTaskClick(99)}
-          >
-            <BadgeMinus />
-          </StyledButton>
-        ) : (
-          <StyledButton
-            title="Выполнить"
-            type="button"
-            onClick={() => handleCompliteUnlockTaskClick(100)}
-          >
-            <BadgeCheck />
-          </StyledButton>
-        )}
-        <p className="font-light">{title}</p>
-        <ProgressBar progress={progress} />
+      <div className="flex items-center justify-center gap-2">
+        <div className="hidden sm:block">
+          {isComplited ? (
+            <StyledButton
+              title="Разблокировать"
+              type="button"
+              onClick={() => handleCompliteUnlockTaskClick(99)}
+            >
+              <BadgeMinus />
+            </StyledButton>
+          ) : (
+            <StyledButton
+              title="Выполнить"
+              type="button"
+              onClick={() => handleCompliteUnlockTaskClick(100)}
+            >
+              <BadgeCheck />
+            </StyledButton>
+          )}
+        </div>
+        <p className="pt-4 text-lg font-light sm:pt-0">{title}</p>
       </div>
-      <div className="flex gap-2">
+      <div className="absolute -top-[35%] left-[50%] flex -translate-x-[50%] items-center gap-2 sm:relative sm:left-0 sm:translate-x-0">
+        <div className="block sm:hidden">
+          {isComplited ? (
+            <StyledButton
+              title="Разблокировать"
+              type="button"
+              onClick={() => handleCompliteUnlockTaskClick(99)}
+            >
+              <BadgeMinus />
+            </StyledButton>
+          ) : (
+            <StyledButton
+              title="Выполнить"
+              type="button"
+              onClick={() => handleCompliteUnlockTaskClick(100)}
+            >
+              <BadgeCheck />
+            </StyledButton>
+          )}
+        </div>
+
+        <ProgressBar progress={progress} />
+
         <StyledButton
           disabled={isComplited}
           title="Редактировать"

@@ -14,7 +14,7 @@ export default function ProgressBar({ progress }: ProgressBarProps) {
   }
 
   return (
-    <div className="relative h-[1.8rem] w-[16rem] overflow-hidden rounded-md bg-slate-300">
+    <div className="relative h-[1.8rem] w-[3rem] overflow-hidden rounded-md bg-slate-300 lg:w-[16rem]">
       <p className="absolute z-10 w-full text-center text-white">{progress}%</p>
       <div
         style={{ width: `${progress}%` }} //Горький катаклизм с тэйлвиндом :/ Разберись!

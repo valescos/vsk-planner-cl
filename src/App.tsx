@@ -14,7 +14,7 @@ function App() {
   const [authMode, setAuthMode] = useState<AuthMode>("signup");
   const authToken = cookies.AuthToken;
 
-  const { isError, isLoading, todos } = useServer();
+  const { todos } = useServer();
 
   if (!authToken)
     return (
@@ -31,8 +31,8 @@ function App() {
               <h2
                 className={
                   authMode === "signup"
-                    ? "text-2xl transition-all"
-                    : "tr text-2xl text-gray-300 transition-all hover:underline"
+                    ? "text-lg transition-all sm:text-2xl"
+                    : "tr text-lg text-gray-300 transition-all hover:underline sm:text-2xl"
                 }
               >
                 Регистрация
@@ -48,8 +48,8 @@ function App() {
               <h2
                 className={
                   authMode === "signin"
-                    ? "text-2xl transition-all"
-                    : "text-2xl text-gray-300 transition-all hover:underline"
+                    ? "text-lg transition-all sm:text-2xl"
+                    : "text-lg text-gray-300 transition-all hover:underline sm:text-2xl"
                 }
               >
                 Авторизация
@@ -67,14 +67,8 @@ function App() {
     return (
       <div className="flex flex-col items-center">
         <Modal />
-        <div className="wrapper mt-12 flex flex-col rounded-lg border-2 border-gray-400 bg-white shadow-md">
+        <div className="wrapper mt-12 flex flex-col gap-6 rounded-lg border-2 border-gray-400 bg-white p-2 shadow-md">
           <ListHeader />
-
-          <h2 className="text-center text-2xl font-bold">
-            {isLoading && "Идёт загрузка..."}
-            {isError && "Что-то пошло не так..."}
-          </h2>
-
           {todos &&
             todos
               .sort(

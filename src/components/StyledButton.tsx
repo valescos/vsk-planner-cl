@@ -21,7 +21,7 @@ export default function StyledButton({
       title={title}
       onClick={onClick}
       type={type}
-      className="rounded-md border-2 border-gray-400 px-4 py-2 text-gray-400 transition-all hover:bg-gray-400 hover:text-white disabled:cursor-not-allowed"
+      className="rounded-full p-2 text-gray-400 transition-all hover:bg-gray-400 hover:text-white disabled:cursor-not-allowed [&>*]:fill-white [&>*]:hover:fill-transparent"
     >
       {children}
     </button>
