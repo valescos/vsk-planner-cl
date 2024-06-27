@@ -1,15 +1,17 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
-import { useModalContext } from "../contexts/ModalContext";
 
 import { Todo } from "../types";
+import { useModalStatusStore } from "../store/store";
 
 const base_url = import.meta.env.VITE_APP_SERVERURL;
 
 export default function useServer() {
   const queryClient = useQueryClient();
   const [cookies, _, __] = useCookies();
-  const { setModalStatus } = useModalContext();
+  const setCurrentModalStatus = useModalStatusStore(
+    (state) => state.setCurrentModalStatus,
+  );
 
   const { isError, isFetching, data } = useQuery<Todo[]>({
     queryKey: ["todos"],
@@ -34,7 +36,7 @@ export default function useServer() {
           date: new Date(),
         }),
       })
-        .then(() => setModalStatus("closed"))
+        .then(() => setCurrentModalStatus("closed"))
         .catch((err) => console.log(err)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
@@ -52,7 +54,7 @@ export default function useServer() {
           ...todoData,
         }),
       })
-        .then(() => setModalStatus("closed"))
+        .then(() => setCurrentModalStatus("closed"))
         .catch((err) => console.log(err));
     },
     onSuccess: () => {

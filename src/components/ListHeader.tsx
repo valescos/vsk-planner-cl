@@ -1,4 +1,3 @@
-import { useModalContext } from "../contexts/ModalContext";
 import { useCookies } from "react-cookie";
 
 import { BadgePlus } from "lucide-react";
@@ -6,10 +5,16 @@ import { BadgePlus } from "lucide-react";
 import StyledButton from "./StyledButton";
 import useServer from "../hooks/useServer";
 import { BeatLoader } from "react-spinners";
+import { useModalStatusStore } from "../store/store";
 
 export default function ListHeader() {
   const [cookies, __, removeCookie] = useCookies();
-  const { setModalStatus, modalStatus } = useModalContext();
+  const { currentModalStatus, setCurrentModalStatus } = useModalStatusStore(
+    (state) => ({
+      currentModalStatus: state.currentModlStatus,
+      setCurrentModalStatus: state.setCurrentModalStatus,
+    }),
+  );
   const { isFetching } = useServer();
 
   function handleSignOut() {
@@ -25,7 +30,7 @@ export default function ListHeader() {
             title="Добавить"
             type="button"
             onClick={() => {
-              setModalStatus("create");
+              setCurrentModalStatus("create");
             }}
           >
             <BadgePlus />
@@ -33,7 +38,7 @@ export default function ListHeader() {
         </div>
         <h1 className="order-1 text-3xl font-black">{cookies.Email}</h1>
         <div className="fixed left-[50%] top-4 order-2 -translate-x-[50%] self-end md:relative md:left-[25%] md:top-0">
-          {isFetching && modalStatus === "closed" && <BeatLoader />}
+          {isFetching && currentModalStatus === "closed" && <BeatLoader />}
         </div>
       </div>
       <button onClick={() => handleSignOut()} className="md:order-2">

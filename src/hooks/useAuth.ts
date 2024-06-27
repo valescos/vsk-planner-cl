@@ -1,5 +1,4 @@
 import { useCookies } from "react-cookie";
-
 import { AuthMode } from "../types";
 
 const base_url = import.meta.env.VITE_APP_SERVERURL;

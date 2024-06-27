@@ -1,24 +1,30 @@
 import { createPortal } from "react-dom";
-import { useModalContext } from "../contexts/ModalContext";
 import { useRef } from "react";
 import TodoForm from "./TodoForm";
+import { useCurrentTodoStore, useModalStatusStore } from "../store/store";
 
 const portal: Element | null = document.getElementById("portal");
 
 export default function Modal() {
-  const { modalStatus, setModalStatus, setCurrentTodo } = useModalContext();
+  const { currentModalStatus, setCurrentModalStatus } = useModalStatusStore(
+    (state) => ({
+      currentModalStatus: state.currentModlStatus,
+      setCurrentModalStatus: state.setCurrentModalStatus,
+    }),
+  );
   const outerDivRef = useRef<HTMLDivElement | null>(null);
+  const setCurrentTodo = useCurrentTodoStore((state) => state.setCurrentTodo);
 
   function handleClickOutside(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     if (e.target === outerDivRef.current) {
-      setModalStatus("closed");
+      setCurrentModalStatus("closed");
       setCurrentTodo(null);
     } else {
       return;
     }
   }
 
-  if (modalStatus === "closed") return null;
+  if (currentModalStatus === "closed") return null;
 
   return (
     portal &&

@@ -1,5 +1,4 @@
 import { BadgeCheck, BadgeX, BadgeMinus, Pencil } from "lucide-react";
-import { useModalContext } from "../contexts/ModalContext";
 
 import { Todo } from "../types";
 
@@ -8,6 +7,7 @@ import { cn } from "../utilities";
 import StyledButton from "./StyledButton";
 import ProgressBar from "./ProgressBar";
 import useServer from "../hooks/useServer";
+import { useCurrentTodoStore, useModalStatusStore } from "../store/store";
 
 export default function ListItem({
   id,
@@ -16,13 +16,18 @@ export default function ListItem({
   progress,
   date,
 }: Todo) {
-  const { setModalStatus, setCurrentTodo } = useModalContext();
+  const setCurrentModalStatus = useModalStatusStore(
+    (state) => state.setCurrentModalStatus,
+  );
   const { deleteTodoMutation, editTodoMutation } = useServer();
+
+  const currentTodo = useCurrentTodoStore((state) => state.currentTodo);
+  const setCurrentTodo = useCurrentTodoStore((state) => state.setCurrentTodo);
 
   const isComplited = progress === 100;
 
   function handleEditClick() {
-    setModalStatus("edit");
+    setCurrentModalStatus("edit");
     setCurrentTodo({
       id,
       user_email,
@@ -47,6 +52,7 @@ export default function ListItem({
       className={cn(
         "relative flex items-center justify-center rounded-md border-[1px] border-gray-400 p-2 transition-all sm:justify-between",
         isComplited && "bg-blue-200 opacity-50",
+        currentTodo?.id === id && "bg-gray-200",
       )}
     >
       <div className="flex items-center justify-center gap-2">

@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import { useModalContext } from "../contexts/ModalContext";
 import { useCookies } from "react-cookie";
 import useServer from "../hooks/useServer";
 
 import { Todo } from "../types";
 
-import StyledButton from "./StyledButton";
+import { PulseLoader } from "react-spinners";
+import { useCurrentTodoStore, useModalStatusStore } from "../store/store";
 
 export default function TodoForm() {
-  const { modalStatus, currentTodo } = useModalContext();
+  const currentModalStatus = useModalStatusStore(
+    (state) => state.currentModlStatus,
+  );
   const [cookies, _, __] = useCookies();
   const { editTodoMutation, addTodoMutation } = useServer();
+  const currentTodo = useCurrentTodoStore((state) => state.currentTodo);
 
-  const editMode = modalStatus === "edit";
+  const editMode = currentModalStatus === "edit";
 
   function handleInput(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -54,7 +57,9 @@ export default function TodoForm() {
   return (
     <form className="flex flex-col gap-6 p-6">
       <h2 className="text-center text-2xl">
-        {modalStatus === "create" ? "Новая задача" : "Редактирование задачи"}
+        {currentModalStatus === "create"
+          ? "Новая задача"
+          : "Редактирование задачи"}
       </h2>
       <div className="flex flex-col gap-2">
         <label htmlFor="title">Что сделать:</label>
@@ -81,9 +86,17 @@ export default function TodoForm() {
           onChange={(e) => handleChange(e)}
         />
       </div>
-      <StyledButton type={"submit"} onClick={(e) => handleInput(e, todoData)}>
-        Отправить
-      </StyledButton>
+      <button
+        className="rounded-md border-2 border-gray-400 bg-gray-200 p-2 text-gray-400 transition-all hover:bg-gray-400 hover:text-white"
+        type="submit"
+        onClick={(e) => handleInput(e, todoData)}
+      >
+        {editTodoMutation.isPending || addTodoMutation.isPending ? (
+          <PulseLoader color="#FFF" size={10} />
+        ) : (
+          "Отправить"
+        )}
+      </button>
     </form>
   );
 }
