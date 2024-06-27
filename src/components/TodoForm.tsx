@@ -14,6 +14,7 @@ export default function TodoForm() {
   const [cookies, _, __] = useCookies();
   const { editTodoMutation, addTodoMutation } = useServer();
   const currentTodo = useCurrentTodoStore((state) => state.currentTodo);
+  const setCurrentTodo = useCurrentTodoStore((state) => state.setCurrentTodo);
 
   const editMode = currentModalStatus === "edit";
 
@@ -25,6 +26,7 @@ export default function TodoForm() {
     editMode
       ? editTodoMutation.mutate(todoData)
       : addTodoMutation.mutate(todoData);
+    setCurrentTodo(null);
   }
 
   const [todoData, setTodoData] = useState<Todo>({
