@@ -25,10 +25,10 @@ export default function Modal() {
     createPortal(
       <div
         ref={outerDivRef}
-        className="absolute z-20 flex h-full w-full items-start justify-center bg-[rgba(0,0,0,0.5)]"
+        className="fixed z-20 flex h-full w-full items-start justify-center bg-[rgba(0,0,0,0.5)] md:items-center"
         onClick={(e) => handleClickOutside(e)}
       >
-        <div className="z-30 mt-16 w-[75%] rounded-md bg-white shadow-md md:w-[50%] lg:w-[25%]">
+        <div className="z-30 mt-16 w-[75%] rounded-md bg-white shadow-md md:mt-0 md:w-[50%] lg:w-[25%]">
           <TodoForm />
         </div>
       </div>,
