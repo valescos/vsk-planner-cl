@@ -40,7 +40,7 @@ export default function SignupForm() {
           <label htmlFor="password" className="self-center">
             Пароль:
           </label>
-          <input hidden type="text" autoComplete="off" />
+          {/* <input hidden type="text" autoComplete="off" /> */}
           <input
             required
             autoComplete="off"
@@ -58,7 +58,6 @@ export default function SignupForm() {
           <label htmlFor="confirm_password" className="self-center">
             Повторите пароль:
           </label>
-          <input hidden type="text" autoComplete="off" />
           <input
             required
             autoComplete="off"
