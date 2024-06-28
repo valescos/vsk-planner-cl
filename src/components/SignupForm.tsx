@@ -1,83 +1,82 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
+import type { TSignUpSchema } from "../types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signUpSchema } from "../types";
+import { PulseLoader } from "react-spinners";
 
 export default function SignupForm() {
   const { handleAuthorization } = useAuth();
 
-  const [error, setError] = useState<string | null>(null);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<TSignUpSchema>({
+    resolver: zodResolver(signUpSchema),
+  });
 
-  function handleInput(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      setError("Ошибка подтверждения пароля");
-      return;
-    }
-    handleAuthorization({ endpoint: "signup", email, password });
-  }
+  const onSubmit = (data: TSignUpSchema) => {
+    handleAuthorization({
+      endpoint: "signup",
+      email: data.email,
+      password: data.password,
+    });
+    reset();
+  };
 
   return (
-    <div className="flex flex-col gap-2">
-      <form className="flex flex-col gap-2">
-        <div className="flex flex-col">
-          <label htmlFor="email_signup" className="self-center">
-            Е-mail:
-          </label>
-          <input
-            required
-            autoComplete="off"
-            id="email_signup"
-            className="boder-gray-500 rounded-md border-2 px-4 py-2"
-            type="email"
-            placeholder="введите email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="password" className="self-center">
-            Пароль:
-          </label>
-          {/* <input hidden type="text" autoComplete="off" /> */}
-          <input
-            required
-            autoComplete="off1"
-            className="boder-gray-500 rounded-md border-2 px-4 py-2"
-            type="password"
-            placeholder="введите пароль"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-      </form>
-      <form>
-        <div className="flex flex-col">
-          <label htmlFor="confirm_password" className="self-center">
-            Повторите пароль:
-          </label>
-          <input
-            required
-            autoComplete="off2"
-            className="boder-gray-500 rounded-md border-2 px-4 py-2"
-            type="password"
-            placeholder="подтвердите пароль"
-            id="confirm_password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-      </form>
-
+    <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+      <label htmlFor="signup_email" className="self-center">
+        E-mail
+      </label>
+      <input
+        {...register("email")}
+        id="signup_email"
+        type="email"
+        autoComplete="email"
+        className="boder-gray-500 rounded-md border-2 px-4 py-2"
+      />
+      {errors.email && (
+        <p className="self-center font-thin text-rose-500">{`${errors.email.message}`}</p>
+      )}
+      <label htmlFor="singup_password" className="self-center">
+        Пароль
+      </label>
+      <input
+        {...register("password")}
+        id="singup_password"
+        type="password"
+        autoComplete="new-password"
+        className="boder-gray-500 rounded-md border-2 px-4 py-2"
+      />
+      {errors.password && (
+        <p className="self-center font-thin text-rose-500">{`${errors.password.message}`}</p>
+      )}
+      <label htmlFor="singup_confirm_password" className="self-center">
+        Подтвердите пароль
+      </label>
+      <input
+        {...register("confirmPassword")}
+        id="singup_confirm_password"
+        type="password"
+        autoComplete="new-password"
+        className="boder-gray-500 rounded-md border-2 px-4 py-2"
+      />
+      {errors.confirmPassword && (
+        <p className="self-center font-thin text-rose-500">{`${errors.confirmPassword.message}`}</p>
+      )}
       <button
-        onClick={(e) => handleInput(e)}
-        className="mt-2 rounded-md border-2 border-gray-500 p-2 text-gray-500 transition-all hover:bg-gray-500 hover:text-white"
+        disabled={isSubmitting}
+        className="mt-2 rounded-md border-2 border-gray-500 p-2 text-gray-500 transition-all hover:bg-gray-500 hover:text-white disabled:cursor-not-allowed"
       >
-        Зарегистрироваться
+        {isSubmitting ? (
+          <PulseLoader color="#9ca3af" size={10} />
+        ) : (
+          "Зарегистрироваться"
+        )}
       </button>
-      {error && <p className="text-center font-bold text-rose-500">{error}</p>}
-    </div>
+    </form>
   );
 }
