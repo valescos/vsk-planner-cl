@@ -43,7 +43,7 @@ export default function SignupForm() {
           {/* <input hidden type="text" autoComplete="off" /> */}
           <input
             required
-            autoComplete="off"
+            autoComplete="off1"
             className="boder-gray-500 rounded-md border-2 px-4 py-2"
             type="password"
             placeholder="введите пароль"
@@ -60,7 +60,7 @@ export default function SignupForm() {
           </label>
           <input
             required
-            autoComplete="off"
+            autoComplete="off2"
             className="boder-gray-500 rounded-md border-2 px-4 py-2"
             type="password"
             placeholder="подтвердите пароль"
