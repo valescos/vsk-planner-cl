@@ -27,7 +27,7 @@ export default function SignupForm() {
           </label>
           <input
             required
-            autoComplete="email"
+            autoComplete="off"
             id="email_signup"
             className="boder-gray-500 rounded-md border-2 px-4 py-2"
             type="email"
@@ -43,7 +43,7 @@ export default function SignupForm() {
           <input hidden type="text" autoComplete="username " />
           <input
             required
-            autoComplete="new-password"
+            autoComplete="off"
             className="boder-gray-500 rounded-md border-2 px-4 py-2"
             type="password"
             placeholder="введите пароль"
@@ -53,7 +53,6 @@ export default function SignupForm() {
           />
         </div>
       </form>
-
       <form>
         <div className="flex flex-col">
           <label htmlFor="confirm_password" className="self-center">
@@ -62,7 +61,7 @@ export default function SignupForm() {
           <input hidden type="text" autoComplete="username " />
           <input
             required
-            autoComplete="new-password"
+            autoComplete="off"
             className="boder-gray-500 rounded-md border-2 px-4 py-2"
             type="password"
             placeholder="подтвердите пароль"
