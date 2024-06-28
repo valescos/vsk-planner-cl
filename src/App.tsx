@@ -8,6 +8,8 @@ import ListHeader from "./components/ListHeader";
 import ListItem from "./components/ListItem";
 import Modal from "./components/Modal";
 import SigninSignupForm from "./components/SigninSignupForm";
+import SigninForm from "./components/SigninForm";
+import SignupForm from "./components/SignupForm";
 
 function App() {
   const [cookies, _, __] = useCookies();
@@ -57,7 +59,8 @@ function App() {
             </button>
           </div>
           <div className="wrapper self-center">
-            <SigninSignupForm authMode={authMode} />
+            {authMode === "signin" && <SigninForm />}
+            {authMode === "signup" && <SignupForm />}
           </div>
         </div>
       </div>

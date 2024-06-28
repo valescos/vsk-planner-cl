@@ -1,12 +1,7 @@
 import { useState } from "react";
-import { AuthMode } from "../types";
 import useAuth from "../hooks/useAuth";
 
-type SigninSignupFormProps = {
-  authMode: AuthMode;
-};
-
-export default function SigninSignupForm({ authMode }: SigninSignupFormProps) {
+export default function SignupForm() {
   const { handleAuthorization } = useAuth();
 
   const [error, setError] = useState<string | null>(null);
@@ -16,24 +11,24 @@ export default function SigninSignupForm({ authMode }: SigninSignupFormProps) {
 
   function handleInput(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    if (authMode === "signup" && password !== confirmPassword) {
+    if (password !== confirmPassword) {
       setError("Ошибка подтверждения пароля");
       return;
     }
-    handleAuthorization({ endpoint: authMode, email, password });
+    handleAuthorization({ endpoint: "signup", email, password });
   }
 
   return (
     <div className="flex flex-col gap-2">
       <form className="flex flex-col gap-2">
         <div className="flex flex-col">
-          <label htmlFor="email" className="self-center">
+          <label htmlFor="email_signup" className="self-center">
             Е-mail:
           </label>
           <input
             required
             autoComplete="email"
-            id="email"
+            id="email_signup"
             className="boder-gray-500 rounded-md border-2 px-4 py-2"
             type="email"
             placeholder="введите email"
@@ -58,31 +53,31 @@ export default function SigninSignupForm({ authMode }: SigninSignupFormProps) {
           />
         </div>
       </form>
-      {authMode === "signup" && (
-        <form>
-          <div className="flex flex-col">
-            <label htmlFor="confirm_password" className="self-center">
-              Повторите пароль:
-            </label>
-            <input hidden type="text" autoComplete="username " />
-            <input
-              required
-              autoComplete="new-password"
-              className="boder-gray-500 rounded-md border-2 px-4 py-2"
-              type="password"
-              placeholder="подтвердите пароль"
-              id="confirm_password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </div>
-        </form>
-      )}
+
+      <form>
+        <div className="flex flex-col">
+          <label htmlFor="confirm_password" className="self-center">
+            Повторите пароль:
+          </label>
+          <input hidden type="text" autoComplete="username " />
+          <input
+            required
+            autoComplete="new-password"
+            className="boder-gray-500 rounded-md border-2 px-4 py-2"
+            type="password"
+            placeholder="подтвердите пароль"
+            id="confirm_password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+      </form>
+
       <button
         onClick={(e) => handleInput(e)}
         className="mt-2 rounded-md border-2 border-gray-500 p-2 text-gray-500 transition-all hover:bg-gray-500 hover:text-white"
       >
-        {authMode === "signin" ? "Войти" : "Зарегистрироваться"}
+        Зарегистрироваться
       </button>
       {error && <p className="text-center font-bold text-rose-500">{error}</p>}
     </div>
