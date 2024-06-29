@@ -11,19 +11,19 @@ export default function SigninForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
   } = useForm<TSignInSchema>({
     resolver: zodResolver(singInSchema),
   });
 
-  const onSubmit = (data: TSignInSchema) => {
+  const onSubmit = async (data: TSignInSchema) => {
     authorizationMutation.mutate({
       endpoint: "signin",
       email: data.email,
       password: data.password,
     });
-    reset();
+    if (authorizationMutation.isSuccess) reset();
   };
 
   return (
@@ -55,11 +55,20 @@ export default function SigninForm() {
         <p className="self-center font-thin text-rose-500">{`${errors.password.message}`}</p>
       )}
       <button
-        disabled={isSubmitting}
+        disabled={authorizationMutation.isPending}
         className="mt-2 rounded-md border-2 border-gray-500 p-2 text-gray-500 transition-all hover:bg-gray-500 hover:text-white disabled:cursor-not-allowed"
       >
-        {isSubmitting ? <PulseLoader color="#9ca3af" size={10} /> : "Войти"}
+        {authorizationMutation.isPending ? (
+          <PulseLoader color="#9ca3af" size={10} />
+        ) : (
+          "Войти"
+        )}
       </button>
+      {authorizationMutation.isError && (
+        <p className="self-center font-thin text-rose-500">
+          {authorizationMutation.error.message}
+        </p>
+      )}
     </form>
   );
 }

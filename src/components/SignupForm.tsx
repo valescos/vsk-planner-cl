@@ -11,7 +11,7 @@ export default function SignupForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
   } = useForm<TSignUpSchema>({
     resolver: zodResolver(signUpSchema),
@@ -23,7 +23,8 @@ export default function SignupForm() {
       email: data.email,
       password: data.password,
     });
-    reset();
+    if (authorizationMutation.isSuccess) reset();
+    if (authorizationMutation.isError) console.log(authorizationMutation.error);
   };
 
   return (
@@ -68,10 +69,10 @@ export default function SignupForm() {
         <p className="self-center font-thin text-rose-500">{`${errors.confirmPassword.message}`}</p>
       )}
       <button
-        disabled={isSubmitting}
+        disabled={authorizationMutation.isPending}
         className="mt-2 rounded-md border-2 border-gray-500 p-2 text-gray-500 transition-all hover:bg-gray-500 hover:text-white disabled:cursor-not-allowed"
       >
-        {isSubmitting ? (
+        {authorizationMutation.isPending ? (
           <PulseLoader color="#9ca3af" size={10} />
         ) : (
           "Зарегистрироваться"

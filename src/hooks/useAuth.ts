@@ -31,13 +31,13 @@ export default function useAuth() {
       const data = await response.json();
 
       if (data.detail) {
-        throw new Error(data.detail);
+        return Promise.reject(new Error(data.detail));
       } else {
         setCookie("Email", data.email);
         setCookie("AuthToken", data.token);
       }
     } catch (error) {
-      console.log(error);
+      console.log("catch block", error);
     }
   }
 
