@@ -1,5 +1,6 @@
 import { useCookies } from "react-cookie";
 import { AuthMode } from "../types";
+import { useMutation } from "@tanstack/react-query";
 
 const base_url = import.meta.env.VITE_APP_SERVERURL;
 
@@ -11,6 +12,10 @@ export default function useAuth() {
     email: string;
     password: string;
   };
+
+  const authorizationMutation = useMutation({
+    mutationFn: handleAuthorization,
+  });
 
   async function handleAuthorization({
     endpoint,
@@ -26,7 +31,7 @@ export default function useAuth() {
       const data = await response.json();
 
       if (data.detail) {
-        console.log(data.detail);
+        throw new Error(data.detail);
       } else {
         setCookie("Email", data.email);
         setCookie("AuthToken", data.token);
@@ -36,5 +41,5 @@ export default function useAuth() {
     }
   }
 
-  return { handleAuthorization };
+  return { authorizationMutation };
 }

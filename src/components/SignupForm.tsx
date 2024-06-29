@@ -6,7 +6,7 @@ import { signUpSchema } from "../types";
 import { PulseLoader } from "react-spinners";
 
 export default function SignupForm() {
-  const { handleAuthorization } = useAuth();
+  const { authorizationMutation } = useAuth();
 
   const {
     register,
@@ -18,7 +18,7 @@ export default function SignupForm() {
   });
 
   const onSubmit = (data: TSignUpSchema) => {
-    handleAuthorization({
+    authorizationMutation.mutate({
       endpoint: "signup",
       email: data.email,
       password: data.password,

@@ -6,7 +6,7 @@ import { singInSchema } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function SigninForm() {
-  const { handleAuthorization } = useAuth();
+  const { authorizationMutation } = useAuth();
 
   const {
     register,
@@ -18,7 +18,7 @@ export default function SigninForm() {
   });
 
   const onSubmit = (data: TSignInSchema) => {
-    handleAuthorization({
+    authorizationMutation.mutate({
       endpoint: "signin",
       email: data.email,
       password: data.password,
