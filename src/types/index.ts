@@ -29,3 +29,13 @@ export const singInSchema = z.object({
 });
 
 export type TSignInSchema = z.infer<typeof signUpSchema>;
+
+export const todoFormSchema = z.object({
+  title: z
+    .string()
+    .min(1, "Не может быть пустой")
+    .max(60, "60 знаков максимум"),
+  progress: z.coerce.number().min(0).max(100),
+});
+
+export type TtodoFormSchema = z.infer<typeof todoFormSchema>;
