@@ -24,7 +24,6 @@ export default function SignupForm() {
       password: data.password,
     });
     if (authorizationMutation.isSuccess) reset();
-    if (authorizationMutation.isError) console.log(authorizationMutation.error);
   };
 
   return (

@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function SigninForm() {
   const { authorizationMutation } = useAuth();
-
   const {
     register,
     handleSubmit,
